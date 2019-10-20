@@ -2,7 +2,7 @@
 # Recently tested fully with a later version of the Azure PowerShell module - Install-Module AzureRM -RequiredVersion 4.4.1
 
 #region Logon to Azure
-Login-AzureRmAccount
+connect-AzureRmAccount
 
 $subscription = Get-AzureRmSubscription | Out-GridView -PassThru
 Select-AzureRmSubscription -SubscriptionId $subscription.Id

@@ -1,0 +1,25 @@
+
+# Recently tested fully with a later version of the Azure PowerShell module - Install-Module AzureRM -RequiredVersion 4.4.1
+
+#region Logon to Azure
+Login-AzureRmAccount
+
+$subscription = Get-AzureRmSubscription | Out-GridView -PassThru
+Select-AzureRmSubscription -SubscriptionId $subscription.Id
+#endregion
+
+# Variables for YOu to fill in
+$ResourceGroup = 'NestedVMware' # resource group name to contain the new NIC
+$VMname = 'VMware-01' # name of the VM you want to swap out the OS disk
+
+#Get the VM config to a variable
+$VM = Get-AzureRmVM -Name $VMname -ResourceGroupName $ResourceGroup
+
+#Stop and deallocate the VM
+Stop-AzureRmVM -Name $VM.Name -ResourceGroupName $VM.ResourceGroupName -Force
+
+#swap out the OS disk using the VM variable
+$VM.StorageProfile.OsDisk.Vhd.Uri = 'https://storage5142161532.blob.core.windows.net/vhds/0120171108081251.vhd'
+
+#Update the VM configuration
+Update-AzureRmVM -VM $VM -ResourceGroupName $ResourceGroup

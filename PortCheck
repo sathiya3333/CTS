@@ -1,0 +1,26 @@
+Find the pid of the process running in the port number (e.g., 8080):-
+netstat -ano | findStr "8080"
+
+Find the process name by pid:-
+tasklist /fi "pid eq 2216"
+
+'Find' command allows you to filter the results. find /i "listening":-
+netstat -aon | find /i "listening" |find "port"
+
+
+If you want to skip the header and the return of the command prompt:-
+echo off & (for /f "tokens=5" %a in ('netstat -aon ^| findstr 9000') do tasklist /NH /FI "PID eq %a") & echo on
+
+Open Port detail:-
+netstat -n -a -o
+
+netstat -abno
+
+task kill command:-
+taskkill /F /PID 3312
+
+another one:-
+Taskkill /F /IM "PID of a process"
+
+If you want to find out a name of the process
+Get-Process -Id (Get-NetTCPConnection -LocalPort 443).OwningProcess
